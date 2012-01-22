@@ -1,0 +1,5 @@
+pluginclassname=GlossarPlugin
+pluginname=Glossar
+origin=UOL
+version=0.7
+studipMinVersion=2.0

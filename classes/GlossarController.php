@@ -11,30 +11,35 @@ class GlossarController extends StudIPController {
 		$this->plugin = $this->dispatcher->plugin;
 		$this->flash = Trails_Flash::instance();
 		$this->cache = StudipCacheFactory::getCache();
-		$this->infobox = array(
-			'picture' => 'blank.gif',
-			'content' => array(),
-		);
 	}
 
 // Infobox
-	public function setInfoBoxImage($image) {
-		$this->infobox['picture'] = $image;
-	}
+    private function populateInfobox() {
+        if (!isset($this->infobox)) {
+            $this->infobox = array(
+                'picture' => 'blank.gif',
+                'content' => array()
+            );
+        }
+    }
 
-	public function addToInfobox($category, $text, $icon = 'blank.gif') {
-		$infobox = $this->infobox;
+    function setInfoBoxImage($image) {
+        $this->infobox['picture'] = $image;
+    }
 
-		if (!isset($infobox['content'][$category])) {
-			$infobox['content'][$category] = array(
-				'kategorie' => $category,
-				'eintrag'   => array(),
-			);
-		}
-		$infobox['content'][$category]['eintrag'][] = compact('icon', 'text');
+    function addToInfobox($category, $text, $icon = 'blank.gif') {
+        $infobox = $this->infobox;
 
-		$this->infobox = $infobox;
-	}
+        if (!isset($infobox['content'][$category])) {
+            $infobox['content'][$category] = array(
+                'kategorie' => $category,
+                'eintrag'   => array(),
+            );
+        }
+        $infobox['content'][$category]['eintrag'][] = compact('icon', 'text');
+
+        $this->infobox = $infobox;
+    }
 
 // Defaults
 	public function before_filter(&$action, &$args) {

@@ -19,10 +19,31 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
         'course'   => '/course',
         'global'   => '',
         'homepage' =>  '/profile',
+        'zsb'      => '/zsb',
     );
 
     public function __construct() {
         parent::__construct();
+
+        if (PluginEngine::getPlugin('eStudienplaner') !== null) {
+            if (!class_exists('PersonalRechte')) {
+                require_once 'plugins_packages/data-quest/eStudienplaner/models/personalRechte.php';
+            }
+            if (PersonalRechte::isRoot()) {
+                $navigation = new Navigation(_('Glossare'));
+                $navigation->setURL(PluginEngine::getLink('glossarplugin/zsb/show/index'));
+
+                $navigation->addSubNavigation('index', new Navigation(_('Übersicht'), PluginEngine::getLink('glossarplugin/zsb/show/index')));
+                $navigation->addSubNavigation('categories', new Navigation(_('Kategorien'), PluginEngine::getLink('glossarplugin/zsb/admin/categories')));
+                $navigation->addSubNavigation('entries', new Navigation(_('Einträge'), PluginEngine::getLink('glossarplugin/zsb/admin/entries')));
+                $navigation->addSubNavigation('settings', new Navigation(_('Einstellungen'), PluginEngine::getLink('glossarplugin/zsb/admin/settings')));
+
+                Navigation::insertItem('/zsb/glossar', $navigation, 'verwaltung');
+                Navigation::addItem('/start/zsb/glossar', $navigation);
+            }
+        }
+
+        return;
 
         $this->add_navigation('global');
 
@@ -93,7 +114,7 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
         }
     }
 
-    public function getIconNavigation ($course_id, $last_visit) {
+    public function getIconNavigation ($course_id, $last_visit, $user_id) {
         return null;
     }
 
@@ -103,6 +124,16 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
 
     public function getHomepageTemplate($user_id) {
         return null;
+    }
+
+    public function getTabNavigation($course_id)
+    {
+        // TODO: Move code from add_navigation here
+        return array();
+    }
+
+    public function getNotificationObjects($course_id, $since, $user_id) {
+        return array();
     }
 
     public function initialize() {

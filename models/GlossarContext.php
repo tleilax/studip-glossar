@@ -3,36 +3,36 @@ class GlossarContext extends Plain_ORM {
 
     protected static $TABLE = 'glossar_context';
     protected static $COLUMNS = array(
-		'context'     => 'primary',
-		'active'      => 'boolean',
-		'collapsable' => 'boolean',
-		'public'      => 'boolean',
-		'open'        => 'boolean',
-		'chdate'      => 'unix-timestamp',
-		'chuserid'    => 'userid',
-	);
-	protected static $ID_COLUMN = 'context';
-	
-	protected $type;
-	
-	public function __construct($context, $type) {
-	    try {
-    	    parent::__construct($context);
-	    } catch (Exception $e) {
-	        $this['context']      = $context;
-	        $this['active']       = true;
-	        $this['collapsable']  = true;
-	        $this['public']       = false;
-	        $this['open']         = false;
-	        $this->store();	        
-	    }
+        'context'     => 'primary',
+        'active'      => 'boolean',
+        'collapsable' => 'boolean',
+        'public'      => 'boolean',
+        'open'        => 'boolean',
+        'chdate'      => 'unix-timestamp',
+        'chuserid'    => 'userid',
+    );
+    protected static $ID_COLUMN = 'context';
+    
+    protected $type;
+    
+    public function __construct($context, $type) {
+        try {
+            parent::__construct($context);
+        } catch (Exception $e) {
+            $this['context']      = $context;
+            $this['active']       = true;
+            $this['collapsable']  = true;
+            $this['public']       = false;
+            $this['open']         = false;
+            $this->store();         
+        }
 
-	    $this->type = $type;
-	}
-	
-	public function path () {
-	    return $this->type;
-	}
+        $this->type = $type;
+    }
+    
+    public function path () {
+        return $this->type;
+    }
 
     public function priviledgedAccess($strict = false) {
         // Homepage and user's homepage
@@ -50,10 +50,10 @@ class GlossarContext extends Plain_ORM {
         return $GLOBALS['perm']->have_perm('root');
     }
 
-	public function __toString () {
-	    return $this['context'];
-	}
-	
+    public function __toString () {
+        return $this['context'];
+    }
+    
 /** **/
 
     public static function Get($context) {
@@ -71,6 +71,6 @@ class GlossarContext extends Plain_ORM {
                 $context = $GLOBALS['user']->id;
             }
         }
-		return new self($context, $ctx);        
+        return new self($context, $ctx);        
     }
 }

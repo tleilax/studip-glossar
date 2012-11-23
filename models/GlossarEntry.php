@@ -7,8 +7,8 @@ class GlossarEntry extends Plain_ORM {
         'glossar_id'  => 'primary',
         'term'        => 'required',
         'description' => 'required',
-		'chdate'      => 'unix-timestamp',
-		'chuserid'    => 'userid',
+        'chdate'      => 'unix-timestamp',
+        'chuserid'    => 'userid',
     );
     protected static $ORDER = '`term` ASC';
     protected static $ID_COLUMN = 'glossar_id';

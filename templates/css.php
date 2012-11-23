@@ -1,16 +1,16 @@
 fieldset select[multiple], fieldset input[type=text], fieldset textarea {
-	width: 90%;
+    width: 90%;
 }
 label {
-	vertical-align: top;
+    vertical-align: top;
 }
 
 /* Glossar Definitions */
 dl.glossar .entries dd {
-	background: url(<?= Assets::image_path('kaverl1b.jpg') ?>);
-	border: 1px solid #888;
-	padding: 1em;
-	text-align: justify;
+    background: url(<?= Assets::image_path('kaverl1b.jpg') ?>);
+    border: 1px solid #888;
+    padding: 1em;
+    text-align: justify;
 }
 
 /* letters */
@@ -33,18 +33,18 @@ dl.glossar .entries dd {
 
 /* collapsable forms */
 fieldset.collapsable legend {
-	background: transparent url(<?= Assets::image_path('icons/16/blue/arr_1down.png') ?>) 2px center no-repeat;
-	cursor: pointer;
-	padding-left: 20px;
+    background: transparent url(<?= Assets::image_path('icons/16/blue/arr_1down.png') ?>) 2px center no-repeat;
+    cursor: pointer;
+    padding-left: 20px;
 }
 fieldset.collapsed {
-	border-color: transparent;
+    border-color: transparent;
 }
 fieldset.collapsed legend {
-	background-image: url(<?= Assets::image_path('icons/16/blue/arr_1right.png') ?>);
+    background-image: url(<?= Assets::image_path('icons/16/blue/arr_1right.png') ?>);
 }
 fieldset.collapsed > div {
-	display: none;
+    display: none;
 }
 
 /* settings form */
@@ -95,21 +95,21 @@ form.settings fieldset > div:hover label small {
 
 /* collapsable definition lists */
 dl.collapsable dt {
-	background: transparent url(<?= Assets::image_path('icons/16/blue/arr_1down.png') ?>) 2px center no-repeat;
-	cursor: pointer;
-	padding-left: 20px;
+    background: transparent url(<?= Assets::image_path('icons/16/blue/arr_1down.png') ?>) 2px center no-repeat;
+    cursor: pointer;
+    padding-left: 20px;
 }
 dl.collapsable dt.collapsed {
-	background-image: url(<?= Assets::image_path('icons/16/blue/arr_1right.png') ?>);	
+    background-image: url(<?= Assets::image_path('icons/16/blue/arr_1right.png') ?>);   
 }
 dl.collapsable dt.collapsed + dd {
-	display: none;
+    display: none;
 }
 
 /* pagination */
 .pagination {
-	text-align: center;
+    text-align: center;
 }
 .pagination img {
-	vertical-align: top;
+    vertical-align: top;
 }

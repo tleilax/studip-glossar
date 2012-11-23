@@ -3,57 +3,57 @@ class Admin_CategoriesController extends GlossarController {
 
     public function before_filter(&$action, &$args) {
 
-		parent::before_filter($action, $args);
+        parent::before_filter($action, $args);
 
-		Navigation::activateItem($this->plugin->path.'/glossar/categories');
-		PageLayout::setTitle('Glossar - Kategorien');
-		
-		$this->setInfoboxImage('infobox/administration.jpg');
+        Navigation::activateItem($this->plugin->path.'/glossar/categories');
+        PageLayout::setTitle('Glossar - Kategorien');
+        
+        $this->setInfoboxImage('infobox/administration.jpg');
     }
     
-	public function index_action ($page = 0) {
+    public function index_action ($page = 0) {
 
-		if ($this->check_confirmation($page)) {
-			return;
-		}
+        if ($this->check_confirmation($page)) {
+            return;
+        }
 
-		$html = '<a href="'.$this->url_for('edit').'">Neuer Eintrag</a>';
-		$this->addToInfobox('', $html, 'icons/16/black/plus.png');
+        $html = '<a href="'.$this->url_for('edit').'">Neuer Eintrag</a>';
+        $this->addToInfobox('', $html, 'icons/16/black/plus.png');
 
-		$this->records = GlossarCategory::Load();
-		$this->paginate($this->records, $page);
-	}
-	
-	public function edit_action($id = null, $page = 0) {
-		
-		$this->record = new GlossarCategory($id);
-		$this->id = $id;
-		$this->page = $page;
-		
-	}
+        $this->records = GlossarCategory::Load();
+        $this->paginate($this->records, $page);
+    }
+    
+    public function edit_action($id = null, $page = 0) {
+        
+        $this->record = new GlossarCategory($id);
+        $this->id = $id;
+        $this->page = $page;
+        
+    }
 
-	public function store_action ($id = null, $page = 0) {
-		if (Request::submitted('submit')) {
-			$this->record = new GlossarCategory($id);
-			$this->record['category'] = trim(Request::get('category'));
-			$this->record->store();
+    public function store_action ($id = null, $page = 0) {
+        if (Request::submitted('submit')) {
+            $this->record = new GlossarCategory($id);
+            $this->record['category'] = trim(Request::get('category'));
+            $this->record->store();
 
-			$this->record->assign_entries(Request::intArray('entries', array()));
+            $this->record->assign_entries(Request::intArray('entries', array()));
 
             $message = $id
                 ? _('Die Kategorie wurde bearbeitet.')
                 : _('Die Kategorie wurde erstellt.');
             PageLayout::postMessage(MessageBox::success($message));
-		}
-		$this->redirect('index', $page);
-	}
+        }
+        $this->redirect('index', $page);
+    }
 
-	public function delete_action ($id, $page = 0) {
-		$record = new GlossarCategory($id);
-		$record->delete();
-		
-		PageLayout::postMessage(MessageBox::success(_('Der Eintrag wurde gelöscht.')));
-		$this->redirect('index');
-	}
+    public function delete_action ($id, $page = 0) {
+        $record = new GlossarCategory($id);
+        $record->delete();
+        
+        PageLayout::postMessage(MessageBox::success(_('Der Eintrag wurde gelöscht.')));
+        $this->redirect('index');
+    }
 
 }

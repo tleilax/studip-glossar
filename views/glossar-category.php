@@ -29,12 +29,12 @@ function anchorify ($string) {
     <dd>
         <dl class="entries <?= $collapsable ? 'collapsable' : '' ?>">
         <?php foreach ($entries as $entry): ?>
-        	<dt>
-        	    <a href="#<?= $a = anchorify($entry) ?>" id="<?= $a ?>">
-        	        <?= htmlReady($entry) ?>
-        	    </a>
-        	</dt>
-        	<dd><?= formatReady($entry['description']) ?></dd>
+            <dt>
+                <a href="#<?= $a = anchorify($entry) ?>" id="<?= $a ?>">
+                    <?= htmlReady($entry) ?>
+                </a>
+            </dt>
+            <dd><?= formatReady($entry['description']) ?></dd>
         <?php endforeach; ?>
         </dl>
     </dd>

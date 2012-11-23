@@ -12,11 +12,11 @@
         <div class="type-select">
             <label for="entries"><?= _('Einträge') ?></label>
             <select id="entries" name="entries[]" multiple>
-            <?php foreach (GlossarEntry::Load() as $id => $entry): ?>
+            <? foreach (GlossarEntry::Load() as $id => $entry): ?>
                 <option value="<?= $id ?>" <?= in_array($id, $record->entries) ? 'selected' : ''?>>
                     <?= $entry ?>
                 </option>
-            <?php endforeach; ?>
+            <? endforeach; ?>
             </select>
             <script>$(function(){
                 $('#entries').prev().remove();

@@ -1,4 +1,4 @@
-<?php
+<?
     $status = array(
         ''       => _('Offen für alle'),
         'autor'  => 'autor',
@@ -41,7 +41,7 @@
 
     </fieldset>
 
-<?php if ((string)$context === 'global'): ?>
+<? if ((string)$context === 'global'): ?>
     <fieldset>
         <legend><?= _('Globale Einstellungen') ?></legend>
         
@@ -60,15 +60,15 @@
                 <small><?= _('Nutzer, die mindestens diesen Status haben, können Ihr Glossar selbst aktivieren.') ?></small>
             </label>
             <select name="restricted" id="restricted">
-            <?php foreach ($status as $key => $title): ?>
+            <? foreach ($status as $key => $title): ?>
                 <option value="<?= $key ?>" <?= $key == $restricted ? 'selected' : ''?>>
                     <?= $title ?>
                 </option>
-            <?php endforeach; ?>
+            <? endforeach; ?>
             </select>
         </div>
     </fieldset>
-<?php endif; ?>
+<? endif; ?>
 
     <div class="type-button">
         <?= makebutton('absenden', 'input', null, 'submit') ?>

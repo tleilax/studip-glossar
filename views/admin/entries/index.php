@@ -14,11 +14,11 @@
         </tr>
     </thead>
     <tbody style="vertical-align: top;">
-    <?php foreach ($records as $record): ?>
+    <? foreach ($records as $record): ?>
         <tr class="<?= TextHelper::cycle('cycle_even', 'cycle_odd') ?>">
-        <?php if ($record === null): ?>
+        <? if ($record === null): ?>
             <td colspan="3" style="text-align: center;">&nbsp;</td>
-        <?php else: ?>
+        <? else: ?>
             <td>
                 <a name="id<?= $record['id'] ?>"></a>
                 <a href="<?= $controller->url_for('display', $record['id']) ?>">
@@ -40,8 +40,8 @@
                         )) ?>
                 </a>
             </td>
-        <?php endif; ?>
+        <? endif; ?>
         </tr>
-    <?php endforeach; ?>
+    <? endforeach; ?>
     </tbody>
 </table>

@@ -92,8 +92,8 @@ class GlossarCategory extends Plain_ORM {
 	    $db = DBManager::get();
 	    
 		if ($this['id']) {
-			$db->prepare("DELETE FROM glossar_lists WHERE context = ? AND category_id = ? AND entry_id NOT IN (?)")
-			    ->execute(array(self::$context, $this['id'], $entries));
+			$db->prepare("DELETE FROM glossar_lists WHERE context = ? AND category_id = ? AND glossar_id NOT IN (?)")
+			    ->execute(array(self::$context, $this['id'], $entries ?: null));
 		}
 		
 		$statement = $db->prepare("INSERT INTO glossar_lists (context, glossar_id, category_id, chdate, chuserid) VALUES (?, ?, ?, UNIX_TIMESTAMP(), ?) ON DUPLICATE KEY UPDATE chdate = VALUES(chdate), chuserid = VALUES(chuserid)");

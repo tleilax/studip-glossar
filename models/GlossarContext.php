@@ -43,6 +43,9 @@ class GlossarContext extends Plain_ORM {
         if ($this->type === 'course' and $GLOBALS['perm']->have_studip_perm('tutor', $this['context'])) {
             return true;
         }
+        if ($this->type === 'zsb') {
+            return true;
+        }
         if (!$strict and $this['open']) {
             return true;
         }

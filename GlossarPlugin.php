@@ -149,7 +149,7 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
         PageLayout::addStylesheet(Assets::stylesheet_path('jquery-ui-multiselect.css'));
 
         PageLayout::addScript($this->getPluginURL().self::JS);
-        PageLayout::addScript(Assets::javascript_path('jquery/jquery.multi-select.js'));
+        PageLayout::addScript(Assets::javascript_path('ui.multiselect.js'));
     }
 
     /**

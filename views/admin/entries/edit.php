@@ -17,7 +17,7 @@
 
         <div class="type-select">
             <label for="categories"><?= _('Kategorien') ?></label>
-            <select id="categories" name="categories[]" multiple>
+            <select id="categories" name="categories[]" multiple style="height: 120px;">
             <? foreach (GlossarCategory::Load() as $id => $category): ?>
                 <option value="<?= $id ?>" <?= in_array($id, $record->categories) ? 'selected' : ''?>>
                     <?= $category ?>

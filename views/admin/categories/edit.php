@@ -25,10 +25,9 @@
         </div>
 
         <div class="type-submit">
-            <?= makebutton('absenden', 'input', null, 'submit') ?>
-            <a href="<?= $controller->url_for('index', $page) ?>" class="cancel">
-                <?= makebutton('abbrechen', 'img') ?>
-            </a>
+            <?= Studip\Button::createAccept(_('Speichern'), 'submit') ?>
+            <?= Studip\LinkButton::createCancel(_('Abbrechen'),
+                                                $controller->url_for('index', $page)) ?>
         </div>
     </fieldset>
 </form>

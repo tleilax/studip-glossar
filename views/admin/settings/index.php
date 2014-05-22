@@ -71,9 +71,8 @@
 <? endif; ?>
 
     <div class="type-button">
-        <?= makebutton('absenden', 'input', null, 'submit') ?>
-        <a href="<?= $controller->url_for('') ?>" class="cancel">
-            <?= makebutton('abbrechen', 'img') ?>
-        </a>
+        <?= Studip\Button::createAccept(_('Speichern'), 'submit') ?>
+        <?= Studip\LinkButton::createCancel(_('Abbrechen'),
+                                            $controller->url_for('')) ?>
     </div>
 </form>

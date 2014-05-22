@@ -8,12 +8,13 @@ require 'bootstrap.php';
  * @copyright IBIT 2011-2012
  * @version   0.7
  */
-class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin, HomepagePlugin {
+class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin, HomepagePlugin
+{
 
     const CONFIG_HOMEPAGE   = 'GLOSSARPLUGIN_ACTIVATED_ON_PROFILE_PAGES';
     const CONFIG_RESTRICTED = 'GLOSSARPLUGIN_PROFILE_PAGES_RESTRICTED';
-    const CSS = '/assets/glossar.css';
-    const JS  = '/assets/glossar.js';
+    const LESS = '/assets/glossar.less';
+    const JS   = '/assets/glossar.js';
 
     private static $paths = array(
         'course'   => '/course',
@@ -22,7 +23,8 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
         'zsb'      => '/zsb',
     );
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         if (PluginEngine::getPlugin('eStudienplaner') !== null) {
@@ -60,7 +62,8 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
         }
     }
 
-    private function add_navigation ($context) {
+    private function add_navigation ($context)
+    {
         $path = self::$paths[$context].'/glossar';
 
         $ctx = GlossarContext::Get($context);
@@ -114,15 +117,18 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
         }
     }
 
-    public function getIconNavigation ($course_id, $last_visit, $user_id) {
+    public function getIconNavigation ($course_id, $last_visit, $user_id)
+    {
         return null;
     }
 
-    public function getInfoTemplate($course_id) {
+    public function getInfoTemplate($course_id)
+    {
         return null;
     }
 
-    public function getHomepageTemplate($user_id) {
+    public function getHomepageTemplate($user_id)
+    {
         return null;
     }
 
@@ -132,22 +138,18 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
         return array();
     }
 
-    public function getNotificationObjects($course_id, $since, $user_id) {
+    public function getNotificationObjects($course_id, $since, $user_id)
+    {
         return array();
     }
 
-    public function initialize() {
-        // Add css to site header (create if neccessary)
-        if (isset($_REQUEST['debug']) or !file_exists($this->getPluginPath().self::CSS)) {
-            $factory = new Flexi_TemplateFactory($this->getPluginPath().'/templates/');
-            $css = $factory->render('css');
-            file_put_contents($this->getPluginPath().self::CSS, $css);
-        }
-        PageLayout::addStylesheet($this->getPluginURL().self::CSS);
-        PageLayout::addStylesheet(Assets::stylesheet_path('ui.multiselect.css'));
+    public function initialize()
+    {
+        $this->addStylesheet(self::LESS);
+        PageLayout::addStylesheet(Assets::stylesheet_path('jquery-ui-multiselect.css'));
 
         PageLayout::addScript($this->getPluginURL().self::JS);
-        PageLayout::addScript(Assets::javascript_path('ui.multiselect.js'));
+        PageLayout::addScript(Assets::javascript_path('jquery/jquery.multi-select.js'));
     }
 
     /**
@@ -155,8 +157,8 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
      *
      * @param string   part of the dispatch path that was not consumed
      */
-    public function perform($unconsumed_path) {
-
+    public function perform($unconsumed_path)
+    {
         $dispatcher = new Trails_Dispatcher(
             $this->getPluginPath(),
             rtrim(PluginEngine::getLink($this, array(), null), '/'),

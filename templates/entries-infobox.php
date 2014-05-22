@@ -11,6 +11,6 @@
     </select>
     <noscript>
         <br>
-        <?= makebutton('auswaehlen') ?>
+        <?= Studip\Button::create(_('Auswählen'), 'auswaehlen') ?>
     </noscript>
 </form>

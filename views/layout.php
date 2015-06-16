@@ -12,9 +12,9 @@
 <? $content_for_layout = ob_get_clean(); ?>
 
 <?
-    $layout = 'layouts/base_without_infobox';
+    $layout = 'layouts/base.php';
     $variables = compact('content_for_layout');
-    if ($infobox and !empty($infobox['content'])) {
+    if ($infobox && !empty($infobox['content'])) {
         $layout = 'layouts/base';
         $variables += compact('infobox');
     }

@@ -1,13 +1,10 @@
 <?php
     require_once 'vendor/trails/trails.php';
     require_once 'app/controllers/studip_controller.php';
-    require_once 'classes/GlossarController.php';
 
-    require_once 'classes/Plain_ORM.php';
-    require_once 'models/GlossarCategory.php';
-    require_once 'models/GlossarContext.php';
-    require_once 'models/GlossarEntry.php';
-    require_once 'models/GlossarList.php';
+    StudipAutoloader::addAutoloadPath(__DIR__ . '/classes');
+    StudipAutoloader::addAutoloadPath(__DIR__ . '/classes', 'Glossar');
+    StudipAutoloader::addAutoloadPath(__DIR__ . '/models', 'Glossar');
 
     if (!function_exists('array_pluck')) {
         function array_pluck ($array, $key) {

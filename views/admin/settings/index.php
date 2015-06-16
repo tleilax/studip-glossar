@@ -1,4 +1,4 @@
-<?
+<?php
     $status = array(
         ''       => _('Offen für alle'),
         'autor'  => 'autor',
@@ -50,8 +50,7 @@
                 <?= _('Auf Profilseiten aktiviert') ?>
                 <small><?= _('Sollen Nutzer eigene Glossare auf ihren Profilseiten nutzen können?') ?></small>
             </label>
-            <input type="checkbox" id="homepage" name="homepage" value="1"
-                <?= $homepage ? 'checked' : '' ?>>
+            <input type="checkbox" id="homepage" name="homepage" value="1" <? if ($homepage) echo 'checked'; ?>>
         </div>
 
         <div class="type-checkbox">
@@ -61,8 +60,8 @@
             </label>
             <select name="restricted" id="restricted">
             <? foreach ($status as $key => $title): ?>
-                <option value="<?= $key ?>" <?= $key == $restricted ? 'selected' : ''?>>
-                    <?= $title ?>
+                <option value="<?= htmlReady($key) ?>" <?if ($key === $restricted) echo 'selected'; ?>>
+                    <?= htmlReady($title) ?>
                 </option>
             <? endforeach; ?>
             </select>
@@ -72,7 +71,6 @@
 
     <div class="type-button">
         <?= Studip\Button::createAccept(_('Speichern'), 'submit') ?>
-        <?= Studip\LinkButton::createCancel(_('Abbrechen'),
-                                            $controller->url_for('')) ?>
+        <?= Studip\LinkButton::createCancel(_('Abbrechen'), $controller->url_for('')) ?>
     </div>
 </form>

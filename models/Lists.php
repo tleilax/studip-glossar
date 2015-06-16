@@ -1,5 +1,8 @@
 <?php
-class GlossarList extends Plain_ORM {
+namespace Glossar;
+use Plain_ORM;
+class Lists extends Plain_ORM
+{
 
     protected static $TABLE = 'glossar_lists';
     protected static $COLUMNS = array(

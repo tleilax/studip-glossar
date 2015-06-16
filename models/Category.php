@@ -1,5 +1,10 @@
 <?php
-class GlossarCategory extends Plain_ORM {
+namespace Glossar;
+use Plain_ORM;
+use DBManager, PDO;
+
+class Category extends Plain_ORM
+{
 
     protected static $TABLE = 'glossar_categories';
     protected static $COLUMNS = array(
@@ -14,14 +19,16 @@ class GlossarCategory extends Plain_ORM {
     protected static $ID_COLUMN = 'category_id';
     protected static $CONNECTIONS = array();
 
-    public function __toString() {
+    public function __toString()
+    {
         return ''.@$this['category'];
     }
 
 // Get all entries
-    public static function Get($category_id, $combined = false) {
-        $records = GlossarList::Filter(compact('category_id'));
-        $entries = GlossarEntry::Filter(array('glossar_id' => array_pluck($records, 'glossar_id')));
+    public static function Get($category_id, $combined = false)
+    {
+        $records = Lists::Filter(compact('category_id'));
+        $entries = Entry::Filter(array('glossar_id' => array_pluck($records, 'glossar_id')));
         
         if ($combined) {
             $temp = array();
@@ -43,7 +50,8 @@ class GlossarCategory extends Plain_ORM {
 // Automatically load entries for category
     public $entries = array();
 
-    public function delete(&$id = null) {
+    public function delete(&$id = null)
+    {
         if ($success = parent::delete($id)) {
             DBManager::get()
                 ->prepare("DELETE FROM glossar_lists WHERE context = ? AND category_id = ?")
@@ -52,15 +60,17 @@ class GlossarCategory extends Plain_ORM {
         return $success;
     }
 
-    public function populate($data) {
+    public function populate($data)
+    {
         if (!empty($data['category_id'])) {
-            $temp = GlossarList::Filter(array('category_id' => $data['category_id']));
+            $temp = Lists::Filter(array('category_id' => $data['category_id']));
             $this->entries = array_pluck($temp, 'glossar_id');
         }
         return parent::populate($data);
     }
 
-    public function get_letters() {
+    public function get_letters()
+    {
         $statement = DBManager::get()
             ->prepare("SELECT DISTINCT SUBSTR(UPPER(`term`), 1, 1)"
                      ." FROM `glossar`"
@@ -82,13 +92,14 @@ class GlossarCategory extends Plain_ORM {
         return array_unique($letters);
     }
 
-    protected static function LoadFromDB($ids) {
-
-        GlossarList::Filter(array('category_id' => $ids));
+    protected static function LoadFromDB($ids)
+    {
+        Lists::Filter(array('category_id' => $ids));
         return parent::LoadFromDB($ids);
     }
 
-    public function assign_entries($entries) {
+    public function assign_entries($entries)
+    {
         $db = DBManager::get();
         
         if ($this['id']) {

@@ -45,8 +45,6 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
             }
         }
 
-        return;
-
         $this->add_navigation('global');
 
         $config = Config::getInstance();
@@ -66,7 +64,7 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
     {
         $path = self::$paths[$context].'/glossar';
 
-        $ctx = GlossarContext::Get($context);
+        $ctx = Glossar\Context::Get($context);
 
         if (!(($ctx['active'] and $ctx['public']) or $ctx->priviledgedAccess())) {
             return;
@@ -143,15 +141,6 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
         return array();
     }
 
-    public function initialize()
-    {
-        $this->addStylesheet(self::LESS);
-        PageLayout::addStylesheet(Assets::stylesheet_path('jquery-ui-multiselect.css'));
-
-        PageLayout::addScript($this->getPluginURL().self::JS);
-        PageLayout::addScript(Assets::javascript_path('ui.multiselect.js'));
-    }
-
     /**
      * This method dispatches all actions.
      *
@@ -159,6 +148,12 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
      */
     public function perform($unconsumed_path)
     {
+        $this->addStylesheet(self::LESS);
+        PageLayout::addStylesheet(Assets::stylesheet_path('jquery-ui-multiselect.css'));
+
+        PageLayout::addScript($this->getPluginURL().self::JS);
+        PageLayout::addScript(Assets::javascript_path('ui.multiselect.js'));
+
         $dispatcher = new Trails_Dispatcher(
             $this->getPluginPath(),
             rtrim(PluginEngine::getLink($this, array(), null), '/'),
@@ -166,17 +161,17 @@ class GlossarPlugin extends StudIPPlugin implements SystemPlugin, StandardPlugin
         );
         $dispatcher->plugin = $this;
 
-        $tokens = explode('/', $unconsumed_path);
-        $this->context = array_shift($tokens);
-        $this->path    = self::$paths[$this->context];
+        $tokens          = explode('/', $unconsumed_path);
+        $this->context   = array_shift($tokens);
         $unconsumed_path = implode('/', $tokens);
 
-        $context = GlossarContext::Get($this->context);
-        if (!(($context['active'] and $context['public']) or $context->priviledgedAccess())) {
+        $this->path = self::$paths[$this->context];
+
+        $context = Glossar\Context::Get($this->context);
+        if (!$context['active'] || !($context['public'] || $context->priviledgedAccess())) {
             throw new AccessDeniedException('You should not be here!');
         }
 
         $dispatcher->dispatch($unconsumed_path);
     }
-
 }

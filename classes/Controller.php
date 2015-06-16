@@ -1,20 +1,25 @@
 <?php
-class GlossarController extends StudIPController {
+namespace Glossar;
+use StudipController;
+use Request, PluginEngine, UserConfig;
+use Flexi_TemplateFactory;
 
-    protected $plugin,
-        $current_action,
-        $flash,
-        $template_factory;
+class Controller extends StudipController
+{
+    protected $plugin;
+    protected $current_action;
+    protected $flash;
+    protected $template_factory;
 
-    public function __construct($dispatcher) {
+    public function __construct($dispatcher)
+    {
         parent::__construct($dispatcher);
         $this->plugin = $this->dispatcher->plugin;
-        $this->flash = Trails_Flash::instance();
-        $this->cache = StudipCacheFactory::getCache();
     }
 
 // Infobox
-    protected function populateInfobox() {
+    protected function populateInfobox()
+    {
         if (!isset($this->infobox)) {
             $this->infobox = array(
                 'picture' => 'blank.gif',
@@ -23,11 +28,13 @@ class GlossarController extends StudIPController {
         }
     }
 
-    function setInfoBoxImage($image) {
+    function setInfoBoxImage($image)
+    {
         $this->infobox['picture'] = $image;
     }
 
-    function addToInfobox($category, $text, $icon = 'blank.gif') {
+    function addToInfobox($category, $text, $icon = 'blank.gif')
+    {
         $infobox = $this->infobox;
 
         if (!isset($infobox['content'][$category])) {
@@ -42,26 +49,27 @@ class GlossarController extends StudIPController {
     }
 
 // Defaults
-    public function before_filter(&$action, &$args) {
-        parent::before_filter(&$action, &$args);
+    public function before_filter(&$action, &$args)
+    {
+        parent::before_filter($action, $args);
 
         $this->plugin = $this->dispatcher->plugin;
-        $this->context = GlossarContext::Get($this->plugin->context);
+        $this->context = Context::Get($this->plugin->context);
 
-        GlossarCategory::SetContext($this->context);
-        GlossarEntry::SetContext($this->context);
-        GlossarList::SetContext($this->context);
+        Category::SetContext($this->context);
+        Entry::SetContext($this->context);
+        Lists::SetContext($this->context);
 
         $this->current_action = $action;
 
         $this->template_factory = new Flexi_TemplateFactory($this->plugin->getPluginPath().'/views/');
         $layout = $this->template_factory->open('layout');
-        $layout->set_attribute('flash', $this->flash);
         $this->set_layout($layout);
     }
     
 // Pagination
-    public function paginate(&$records, $page, $action = '') {
+    public function paginate(&$records, $page, $action = '')
+    {
         $this->config = UserConfig::get($GLOBALS['auth']->auth['uid']);
 
         $max_per_page = $this->config->getValue('ENTRIES_PER_PAGE') ?: 20;
@@ -82,7 +90,8 @@ class GlossarController extends StudIPController {
     }
 
 //
-    public function check_confirmation() {
+    public function check_confirmation()
+    {
         $arguments = func_get_args();
 
         if (count(Request::optionArray('confirm')) and Request::option('confirmed')) {
@@ -100,7 +109,8 @@ class GlossarController extends StudIPController {
     }
 
 // URLs
-    private function url_params(&$arguments) {
+    private function url_params(&$arguments)
+    {
         $params = is_array(end($arguments)) ? array_pop($arguments) : array();
 
         $to = array_shift($arguments);
@@ -121,21 +131,23 @@ class GlossarController extends StudIPController {
         return sprintf('%s/%s', $this->context->path(), $to);
     }
 
-    public function redirect($to = '', $params = array()) {
+    public function redirect($to = '', $params = array())
+    {
         header('Location: '.$this->url_for($to, $params));
         die;
     }
 
-    public function url_for($to = '', $params = array()) {
+    public function url_for($to = '', $params = array())
+    {
         $params = func_get_args();
         $to = $this->url_params($params);
         return PluginEngine::getUrl($this->plugin, $params, $to);
     }
 
-    public function link_for($to = '', $params = array()) {
+    public function link_for($to = '', $params = array())
+    {
         $params = func_get_args();
         $to = $this->url_params($params);
         return PluginEngine::getLink($this->plugin, $params, $to);
     }
-
 }

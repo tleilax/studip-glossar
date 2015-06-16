@@ -1,5 +1,11 @@
 <?php
-class GlossarContext extends Plain_ORM {
+namespace Glossar;
+use Plain_ORM;
+use Exception;
+use URLHelper, Request, User;
+
+class Context extends Plain_ORM
+{
 
     protected static $TABLE = 'glossar_context';
     protected static $COLUMNS = array(
@@ -15,7 +21,8 @@ class GlossarContext extends Plain_ORM {
     
     protected $type;
     
-    public function __construct($context, $type) {
+    public function __construct($context, $type)
+    {
         try {
             parent::__construct($context);
         } catch (Exception $e) {
@@ -30,17 +37,19 @@ class GlossarContext extends Plain_ORM {
         $this->type = $type;
     }
     
-    public function path () {
+    public function path ()
+    {
         return $this->type;
     }
 
-    public function priviledgedAccess($strict = false) {
+    public function priviledgedAccess($strict = false)
+    {
         // Homepage and user's homepage
-        if ($this->type === 'homepage' and $this['context'] == $GLOBALS['user']->id) {
+        if ($this->type === 'homepage' && $this['context'] == $GLOBALS['user']->id) {
             return true;
         }
         // Course and user is at least tutor
-        if ($this->type === 'course' and $GLOBALS['perm']->have_studip_perm('tutor', $this['context'])) {
+        if ($this->type === 'course' && $GLOBALS['perm']->have_studip_perm('tutor', $this['context'])) {
             return true;
         }
         if ($this->type === 'zsb') {
@@ -53,13 +62,15 @@ class GlossarContext extends Plain_ORM {
         return $GLOBALS['perm']->have_perm('root');
     }
 
-    public function __toString () {
+    public function __toString ()
+    {
         return $this['context'];
     }
     
 /** **/
 
-    public static function Get($context) {
+    public static function Get($context)
+    {
         $ctx = $context;
         
         if ($context === 'course') {

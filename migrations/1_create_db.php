@@ -7,6 +7,7 @@ class CreateDb extends DBMigration {
             `glossar_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
             `term` VARCHAR(128) NOT NULL,
             `description` TEXT NOT NULL,
+            `link` VARCHAR(255) NULL DEFAULT NULL,
             `chdate` INT(11) UNSIGNED NOT NULL,
             `chuserid` CHAR(32) NOT NULL,
             PRIMARY KEY (`context`, `glossar_id`)
@@ -39,7 +40,7 @@ class CreateDb extends DBMigration {
             `chdate` INT(11) UNSIGNED NOT NULL,
             `chuserid` CHAR(32) NOT NULL,
             PRIMARY KEY (`context`)
-        );")
+        )");
     }
 
     function down() {

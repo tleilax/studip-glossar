@@ -1,23 +1,25 @@
 <?php
-class Admin_SettingsController extends GlossarController {
-
-    public function before_filter(&$action, &$args) {
-
+class Admin_SettingsController extends Glossar\Controller
+{
+    public function before_filter(&$action, &$args)
+    {
         parent::before_filter($action, $args);
 
-        Navigation::activateItem($this->plugin->path.'/glossar/settings');
+        Navigation::activateItem($this->plugin->path . '/glossar/settings');
         PageLayout::setTitle('Glossar - Einstellungen');
 
         $this->setInfoboxImage('infobox/administration.jpg');
     }
 
-    public function index_action () {
+    public function index_action ()
+    {
         $config = Config::GetInstance();        
         $this->homepage   = $config[GlossarPlugin::CONFIG_HOMEPAGE];
         $this->restricted = $config[GlossarPlugin::CONFIG_RESTRICTED];
     }
     
-    public function store_action () {
+    public function store_action ()
+    {
         if (Request::submitted('submit')) {
             $this->context['active']      = (bool)Request::int('active', 0);
             $this->context['collapsable'] = (bool)Request::int('collapsable', 0);
@@ -43,7 +45,8 @@ class Admin_SettingsController extends GlossarController {
         $this->redirect('admin/settings');
     }
     
-    private function store_config($key, $value, $comment) {
+    private function store_config($key, $value, $comment)
+    {
         $config = Config::GetInstance();
         try {
             $config->store($key, $value);

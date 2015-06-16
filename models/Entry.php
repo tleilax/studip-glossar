@@ -1,5 +1,10 @@
 <?php
-class GlossarEntry extends Plain_ORM {
+namespace Glossar;
+use Plain_ORM;
+use DBManager, PDO;
+
+class Entry extends Plain_ORM
+{
 
     protected static $TABLE = 'glossar';
     protected static $COLUMNS = array(
@@ -7,6 +12,7 @@ class GlossarEntry extends Plain_ORM {
         'glossar_id'  => 'primary',
         'term'        => 'required',
         'description' => 'required',
+        'link'        => '',
         'chdate'      => 'unix-timestamp',
         'chuserid'    => 'userid',
     );
@@ -16,21 +22,24 @@ class GlossarEntry extends Plain_ORM {
 
     public $categories = array();
 
-    public function populate($data) {
+    public function populate($data)
+    {
         if (!empty($data['glossar_id'])) {
-            $temp = GlossarList::Filter(array('glossar_id' => $data['glossar_id']));
+            $temp = Lists::Filter(array('glossar_id' => $data['glossar_id']));
             $this->categories = array_pluck($temp, 'category_id');
         }
         return parent::populate($data);
     }
     
-    public function store() {
+    public function store()
+    {
         parent::store();
         $this->assign_categories($this->categories);
         return true;
     }
     
-    public function delete($id = null) {
+    public function delete($id = null)
+    {
         if ($success = parent::delete($id)) {
             DBManager::get()
                 ->prepare("DELETE FROM glossar_lists WHERE context = ? AND glossar_id = ?")
@@ -39,14 +48,15 @@ class GlossarEntry extends Plain_ORM {
         return $success;
     }
 
-    protected static function LoadFromDB($ids) {
-
-        GlossarList::Filter(array('glossar_id' => $ids));
+    protected static function LoadFromDB($ids)
+    {
+        Lists::Filter(array('glossar_id' => $ids));
 
         return parent::LoadFromDB($ids);
     }
 
-    public function assign_categories($categories) {
+    public function assign_categories($categories)
+    {
         if ($this['id']) {
             DBManager::get()
                 ->prepare("DELETE FROM glossar_lists WHERE context = ? AND glossar_id = ? ")
@@ -60,7 +70,8 @@ class GlossarEntry extends Plain_ORM {
         $this->categories = $categories;
     }
     
-    public function __toString() {
+    public function __toString()
+    {
         return ''.@$this['term'];
     }
 }
